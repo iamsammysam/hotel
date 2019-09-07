@@ -1,3 +1,5 @@
+require "pry"
+
 module Hotel
   class HotelOrganizer
     attr_reader :reservations, :rooms
@@ -26,6 +28,18 @@ module Hotel
     def add_reservation(reservation)
       @reservations << reservation
     end 
+    
+    def list_reservations(date)
+      reservations_by_date = []
+      
+      @reservations.each do |reservation|
+        if reservation.start_date == date
+          reservations_by_date << reservation
+          return reservations_by_date
+        end 
+      end 
+      return nil
+    end
     
     private
     
