@@ -21,4 +21,18 @@ describe "Reservation Class" do
       end.must_raise ArgumentError
     end
   end 
+  
+  describe "method duration" do
+    it "calculates the duration of a reservation" do
+      reservation = Hotel::Reservation.new(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
+      expect(reservation.duration).must_equal 5
+    end     
+  end 
+  
+  describe "method total_cost" do
+    it "calculates the total cost of a reservation" do
+      reservation = Hotel::Reservation.new(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
+      expect(reservation.total_cost).must_equal 1000
+    end     
+  end 
 end
