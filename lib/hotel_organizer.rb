@@ -23,6 +23,12 @@ module Hotel
       return reservation
     end
     
+    def add_reservation(reservation)
+      @reservations << reservation
+    end 
+    
+    private
+    
     def find_room(room_number)
       rooms.each do |room|
         if room.room_number == room_number

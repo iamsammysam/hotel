@@ -39,5 +39,28 @@ describe "HotelOrganizer Class" do
     it "will generate a new id for each reservation" do 
       expect(@reservation.reservation_id).must_equal 1
     end
+    
+    # it "takes to date objects and returns a reservation" do
+    #   make this test
+    # end
   end 
+  
+  describe "method add_reservation" do   
+    it "will create a list of new reservations" do
+      reservation1 = @hotel_organizer.make_reservation(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
+      reservation2 = @hotel_organizer.make_reservation(2, 13, Date.new(2018,01,10), Date.new(2018,01,12))
+      reservation3 = @hotel_organizer.make_reservation(3, 07, Date.new(2018,02,02), Date.new(2018,02,10))
+      
+      @hotel_organizer.add_reservation(reservation1)
+      @hotel_organizer.add_reservation(reservation2)
+      @hotel_organizer.add_reservation(reservation3)
+      
+      reservations_after = @hotel_organizer.reservations.length
+      
+      expect(@hotel_organizer.reservations).must_include reservation1
+      expect(@hotel_organizer.reservations).must_include reservation2
+      expect(@hotel_organizer.reservations).must_include reservation3
+      expect(reservations_after).must_equal 3
+    end      
+  end
 end
