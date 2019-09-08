@@ -3,7 +3,7 @@ require_relative 'test_helper'
 describe "Reservation Class" do
   describe "initialize" do
     it "is an instance of Reservation" do 
-      reservation = Hotel::Reservation.new(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
+      reservation = Hotel::Reservation.new(18, Date.new(2018,01,01), Date.new(2018,01,06), nil)
       expect(reservation).must_be_kind_of Hotel::Reservation
     end
     
@@ -17,26 +17,26 @@ describe "Reservation Class" do
     
     it "raises an error when end_date is before start_date" do
       expect do 
-        Hotel::Reservation.new(1, 18, Date.new(2018,01,06), Date.new(2018,01,01))
+        Hotel::Reservation.new(8, Date.new(2018,01,06), Date.new(2018,01,01), nil)
       end.must_raise ArgumentError
     end
     
     it "raises an error when start_date is nil" do
       expect do 
-        Hotel::Reservation.new(1, 18, nil, Date.new(2018,01,01))
+        Hotel::Reservation.new(18, nil, Date.new(2018,01,01))
       end.must_raise ArgumentError
     end
     
     it "raises an error when end_date is nil" do
       expect do 
-        Hotel::Reservation.new(1, 18, Date.new(2018,01,06), nil)
+        Hotel::Reservation.new(18, Date.new(2018,01,06), nil)
       end.must_raise ArgumentError
     end  
   end 
   
   describe "method duration" do
     it "calculates the duration of a reservation" do
-      reservation = Hotel::Reservation.new(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
+      reservation = Hotel::Reservation.new(18, Date.new(2018,01,01), Date.new(2018,01,06), nil)
       expect(reservation.duration).must_equal 5
     end     
   end 
@@ -44,7 +44,7 @@ describe "Reservation Class" do
   describe "method total_cost" do
     it "calculates the total cost of a reservation" do
       room = Hotel::Room.new(18, 200)
-      reservation = Hotel::Reservation.new(1, room, Date.new(2018,01,01), Date.new(2018,01,06))
+      reservation = Hotel::Reservation.new(room, Date.new(2018,01,01), Date.new(2018,01,06), nil)
       
       expect(reservation.total_cost).must_equal 1000
     end     

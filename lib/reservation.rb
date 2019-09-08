@@ -1,11 +1,9 @@
 module Hotel
   class Reservation
-    attr_reader :reservation_id, :room, :start_date, :end_date
+    attr_reader :room, :start_date, :end_date, :range
     
-    def initialize(reservation_id, room, start_date, end_date)
-      @reservation_id = reservation_id
+    def initialize(room, start_date, end_date, range)
       @room = room
-      
       if start_date != nil && end_date !=nil
         if end_date < start_date
           raise ArgumentError, "#{end_date} is before #{start_date}."
@@ -18,7 +16,12 @@ module Hotel
       
       @start_date = start_date
       @end_date = end_date
+      @range = range
     end
+    
+    def range
+      range = (start_date..end_date).to_a
+    end 
     
     def total_cost
       return duration * (room.room_cost)
