@@ -3,6 +3,14 @@ require_relative 'test_helper'
 describe "HotelOrganizer Class" do  
   before do
     @hotel_organizer = Hotel::HotelOrganizer.new
+    
+    @reservation1 = @hotel_organizer.make_reservation(18, Date.new(2018,01,01), Date.new(2018,01,06), nil)
+    @reservation2 = @hotel_organizer.make_reservation(13, Date.new(2018,01,03), Date.new(2018,01,12), nil)
+    @reservation3 = @hotel_organizer.make_reservation(07, Date.new(2018,02,02), Date.new(2018,02,10), nil)
+    
+    @hotel_organizer.add_reservation(@reservation1)
+    @hotel_organizer.add_reservation(@reservation2)
+    @hotel_organizer.add_reservation(@reservation3)
   end 
   
   describe "initialize" do
@@ -16,9 +24,9 @@ describe "HotelOrganizer Class" do
     end
   end 
   
-  describe "method list_rooms" do 
+  describe "method total_rooms" do 
     it "method returns an array" do
-      rooms = @hotel_organizer.list_rooms
+      rooms = @hotel_organizer.total_rooms
       expect(rooms).must_be_kind_of Array
     end
     
@@ -27,73 +35,54 @@ describe "HotelOrganizer Class" do
     end
   end
   
-  describe "method make_reservation" do 
-    before do
-      @reservation = @hotel_organizer.make_reservation(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
-    end
-    
+  describe "method make_reservation" do
     it "returns an instance of Reservation" do
-      expect(@reservation).must_be_kind_of Hotel::Reservation
-    end
-    
-    it "will generate a new id for each reservation" do 
-      expect(@reservation.reservation_id).must_equal 1
+      expect(@reservation1).must_be_kind_of Hotel::Reservation
     end
   end 
   
   describe "method add_reservation" do   
     it "will create a list of new reservations" do
-      reservation1 = @hotel_organizer.make_reservation(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
-      reservation2 = @hotel_organizer.make_reservation(2, 13, Date.new(2018,01,10), Date.new(2018,01,12))
-      reservation3 = @hotel_organizer.make_reservation(3, 07, Date.new(2018,02,02), Date.new(2018,02,10))
-      
-      @hotel_organizer.add_reservation(reservation1)
-      @hotel_organizer.add_reservation(reservation2)
-      @hotel_organizer.add_reservation(reservation3)
-      
-      reservations_after = @hotel_organizer.reservations.length
-      
-      expect(@hotel_organizer.reservations).must_include reservation1
-      expect(@hotel_organizer.reservations).must_include reservation2
-      expect(@hotel_organizer.reservations).must_include reservation3
+      reservations_after = @hotel_organizer.reservations.length   
       expect(reservations_after).must_equal 3
     end      
   end
   
   describe "method list_reservations by date" do
-    before do
-      reservation1 = @hotel_organizer.make_reservation(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
-      reservation2 = @hotel_organizer.make_reservation(2, 13, Date.new(2018,01,01), Date.new(2018,01,12))
-      reservation3 = @hotel_organizer.make_reservation(3, 07, Date.new(2018,02,02), Date.new(2018,02,10))
-      
-      @hotel_organizer.add_reservation(reservation1)
-      @hotel_organizer.add_reservation(reservation2)
-      @hotel_organizer.add_reservation(reservation3)
-    end
-    
     it "returns an array" do 
-      reservations_by_date = @hotel_organizer.list_reservations(Date.new(2018,01,01))
+      reservations_by_date = @hotel_organizer.list_reservations(Date.new(2018,01,05))
       expect(reservations_by_date).must_be_kind_of Array
     end 
     
     it "takes a date and returns a list of reservations" do 
-      reservations_by_date = @hotel_organizer.list_reservations(Date.new(2018,01,01))
+      reservations_by_date = @hotel_organizer.list_reservations(Date.new(2018,01,05))
       reservations_after = reservations_by_date.length
       expect(reservations_after).must_equal 2
     end 
     
-    it "raises error when no no reservations for that date" do
-      reservation1 = @hotel_organizer.make_reservation(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
-      reservation2 = @hotel_organizer.make_reservation(2, 13, Date.new(2018,01,01), Date.new(2018,01,12))
-      reservation3 = @hotel_organizer.make_reservation(3, 07, Date.new(2018,02,02), Date.new(2018,02,10))
-      
-      @hotel_organizer.add_reservation(reservation1)
-      @hotel_organizer.add_reservation(reservation2)
-      @hotel_organizer.add_reservation(reservation3)
-      
+    it "raises error when no no reservations for that date" do   
       expect do 
         @hotel_organizer.list_reservations(Date.new(2018,10,10))
       end.must_raise ArgumentError
     end
-  end
+  end 
+  
+  describe "method list_rooms by date" do
+    it "returns an array" do 
+      reservations_rooms_by_date = @hotel_organizer.list_rooms(Date.new(2018,01,05))
+      expect(reservations_rooms_by_date).must_be_kind_of Array
+    end 
+    
+    it "takes a date and returns a list of rooms" do 
+      reservations_rooms_by_date = @hotel_organizer.list_rooms(Date.new(2018,01,05))
+      reservations_after = reservations_rooms_by_date.length
+      expect(reservations_after).must_equal 2
+    end 
+    
+    it "raises error when no no rooms reserved for that date" do   
+      expect do 
+        @hotel_organizer.list_rooms(Date.new(2018,10,10))
+      end.must_raise ArgumentError
+    end
+  end 
 end 

@@ -11,15 +11,14 @@ module Hotel
       end
     end
     
-    def list_rooms
+    def total_rooms
       @rooms
     end
     
-    def make_reservation(reservation_id, room_number, start_date, end_date)  
-      reservation_id = (reservations.length + 1)
+    def make_reservation(room_number, start_date, end_date, range)  
       room = find_room(room_number)
       
-      reservation = Hotel::Reservation.new(reservation_id, room, start_date, end_date)
+      reservation = Hotel::Reservation.new(room, start_date, end_date, range)
       return reservation
     end
     
@@ -31,17 +30,31 @@ module Hotel
       reservations_by_date = []
       
       @reservations.each do |reservation|
-        if reservation.start_date == date
+        if reservation.range.include?(date)
           reservations_by_date << reservation
         end 
-      end 
+      end
       
       if reservations_by_date.empty?
-        raise ArgumentError, "No reservation for this date."
-      end 
-      
+        raise ArgumentError, "No reservations for this date."
+      end
       return reservations_by_date
     end
+    
+    def list_rooms(date)
+      reservations_rooms_by_date = []
+      
+      @reservations.each do |reservation|
+        if reservation.range.include?(date)
+          reservations_rooms_by_date << reservation.room.room_number
+        end 
+      end
+      
+      if reservations_rooms_by_date.empty?
+        raise ArgumentError, "No rooms reserved for this date."
+      end
+      return reservations_rooms_by_date
+    end 
     
     private
     
