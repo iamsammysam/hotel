@@ -20,6 +20,18 @@ describe "Reservation Class" do
         Hotel::Reservation.new(1, 18, Date.new(2018,01,06), Date.new(2018,01,01))
       end.must_raise ArgumentError
     end
+    
+    it "raises an error when start_date is nil" do
+      expect do 
+        Hotel::Reservation.new(1, 18, nil, Date.new(2018,01,01))
+      end.must_raise ArgumentError
+    end
+    
+    it "raises an error when end_date is nil" do
+      expect do 
+        Hotel::Reservation.new(1, 18, Date.new(2018,01,06), nil)
+      end.must_raise ArgumentError
+    end  
   end 
   
   describe "method duration" do

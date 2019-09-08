@@ -1,5 +1,3 @@
-require "pry"
-
 module Hotel
   class HotelOrganizer
     attr_reader :reservations, :rooms
@@ -35,10 +33,14 @@ module Hotel
       @reservations.each do |reservation|
         if reservation.start_date == date
           reservations_by_date << reservation
-          return reservations_by_date
         end 
       end 
-      return nil
+      
+      if reservations_by_date.empty?
+        raise ArgumentError, "No reservation for this date."
+      end 
+      
+      return reservations_by_date
     end
     
     private

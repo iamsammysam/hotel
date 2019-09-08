@@ -79,8 +79,21 @@ describe "HotelOrganizer Class" do
     it "takes a date and returns a list of reservations" do 
       reservations_by_date = @hotel_organizer.list_reservations(Date.new(2018,01,01))
       reservations_after = reservations_by_date.length
-      
       expect(reservations_after).must_equal 2
     end 
+    
+    it "raises error when no no reservations for that date" do
+      reservation1 = @hotel_organizer.make_reservation(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
+      reservation2 = @hotel_organizer.make_reservation(2, 13, Date.new(2018,01,01), Date.new(2018,01,12))
+      reservation3 = @hotel_organizer.make_reservation(3, 07, Date.new(2018,02,02), Date.new(2018,02,10))
+      
+      @hotel_organizer.add_reservation(reservation1)
+      @hotel_organizer.add_reservation(reservation2)
+      @hotel_organizer.add_reservation(reservation3)
+      
+      expect do 
+        @hotel_organizer.list_reservations(Date.new(2018,10,10))
+      end.must_raise ArgumentError
+    end
   end
 end 

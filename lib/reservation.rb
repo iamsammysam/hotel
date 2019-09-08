@@ -11,10 +11,14 @@ module Hotel
         if end_date < start_date
           raise ArgumentError, "#{end_date} is before #{start_date}."
         end
-        
-        @start_date = start_date
-        @end_date = end_date
+      end 
+      
+      if start_date == nil || end_date == nil
+        raise ArgumentError, "#{start_date} or #{end_date} are invalid."
       end
+      
+      @start_date = start_date
+      @end_date = end_date
     end
     
     def total_cost
