@@ -43,7 +43,9 @@ describe "Reservation Class" do
   
   describe "method total_cost" do
     it "calculates the total cost of a reservation" do
-      reservation = Hotel::Reservation.new(1, 18, Date.new(2018,01,01), Date.new(2018,01,06))
+      room = Hotel::Room.new(18, 200)
+      reservation = Hotel::Reservation.new(1, room, Date.new(2018,01,01), Date.new(2018,01,06))
+      
       expect(reservation.total_cost).must_equal 1000
     end     
   end 
