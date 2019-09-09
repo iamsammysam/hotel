@@ -67,22 +67,36 @@ describe "HotelOrganizer Class" do
     end
   end 
   
-  describe "method list_rooms by date" do
-    it "returns an array" do 
-      reservations_rooms_by_date = @hotel_organizer.list_rooms(Date.new(2018,01,05))
-      expect(reservations_rooms_by_date).must_be_kind_of Array
+  describe "method list_rooms_available?" do
+    it "returns false if not available" do     
+      reservations_rooms_by_date = @hotel_organizer.list_rooms_available?(Date.new(2018,01,04),Date.new(2018,01,05))
+      expect(reservations_rooms_by_date).must_equal false
     end 
     
-    it "takes a date and returns a list of rooms" do 
-      reservations_rooms_by_date = @hotel_organizer.list_rooms(Date.new(2018,01,05))
-      reservations_after = reservations_rooms_by_date.length
-      expect(reservations_after).must_equal 2
+    it "returns an true if available" do     
+      reservations_rooms_by_date = @hotel_organizer.list_rooms_available?(Date.new(2018,01,12),Date.new(2018,01,16))
+      expect(reservations_rooms_by_date).must_equal true
     end 
-    
-    it "raises error when no no rooms reserved for that date" do   
-      expect do 
-        @hotel_organizer.list_rooms(Date.new(2018,10,10))
-      end.must_raise ArgumentError
-    end
   end 
-end 
+  
+  describe "method list_available_rooms" do
+    it "returns an array" do 
+      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,04),Date.new(2018,01,05))
+      expect(list_rooms).must_be_kind_of Array
+    end 
+    
+    it "returns all rooms if dates are available" do 
+      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,12,10),Date.new(2018,12,15))
+      
+      rooms_after = list_rooms.length
+      expect(rooms_after).must_equal 20
+    end 
+    
+    it "returns a list of rooms if dates are available" do  
+      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,05))
+      
+      rooms_after = list_rooms.length
+      expect(rooms_after).must_equal 19
+    end 
+  end 
+end
