@@ -13,8 +13,6 @@ describe "Room Class" do
     it "checks data structures at initialize" do
       expect(@room.room_number).must_be_kind_of Integer
       expect(@room.room_cost).must_be_kind_of Integer
-      #expect(@room.reservations).must_be_kind_of Array
     end
-  end
+  end 
 end
-

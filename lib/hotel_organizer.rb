@@ -16,10 +16,11 @@ module Hotel
     end
     
     def make_reservation(room_number, start_date, end_date, range)  
-      room = find_room(room_number)
+      room = list_available_rooms(start_date, end_date)
       
       reservation = Hotel::Reservation.new(room, start_date, end_date, range)
       return reservation
+      
     end
     
     def add_reservation(reservation)
@@ -41,39 +42,35 @@ module Hotel
       return reservations_by_date
     end
     
-    def list_rooms_available?(start_date, end_date)      
+    def list_rooms_available?(start_date, end_date)            
       reservations.each do |reservation|
+        
         while start_date != end_date
           if reservation.date_range.include?(start_date)
-            return false
+            result = false
+          else
+            result = true
           end
+          
           start_date += 1
-        end 
-        return true
-      end 
-    end
-    
-    def list_available_rooms(start_date, end_date)
-      available_rooms = []
-      
-      @rooms.each do |room|
-        if list_rooms_available?(start_date, end_date)
-          available_rooms << room
-        end 
+        end  
+        return result
       end
-      return available_rooms
     end 
     
-    private
-    
-    def find_room(room_number)
-      rooms.each do |room|
-        if room.room_number == room_number
-          return room
-        end
-      end
+    def list_available_rooms(start_date, end_date)
+      unavailable_rooms = []
       
-      return nil
+      rooms.each do |room|
+        if list_rooms_available?(start_date, end_date) == false
+          unavailable_rooms << room
+        end 
+        
+        if unavailable_rooms.empty?
+          return @rooms
+        end
+        return unavailable_rooms
+      end
     end
-  end
-end 
+  end 
+end

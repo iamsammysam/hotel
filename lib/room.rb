@@ -7,4 +7,4 @@ module Hotel
       @room_cost = room_cost
     end
   end 
-end
+end 

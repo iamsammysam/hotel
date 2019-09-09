@@ -81,7 +81,7 @@ describe "HotelOrganizer Class" do
   
   describe "method list_available_rooms" do
     it "returns an array" do 
-      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,04),Date.new(2018,01,05))
+      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,03))
       expect(list_rooms).must_be_kind_of Array
     end 
     
@@ -92,11 +92,11 @@ describe "HotelOrganizer Class" do
       expect(rooms_after).must_equal 20
     end 
     
-    it "returns a list of rooms if dates are available" do  
-      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,05))
+    it "returns a list of unavailable rooms" do      
+      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,03))
       
       rooms_after = list_rooms.length
-      expect(rooms_after).must_equal 19
+      expect(rooms_after).must_equal 1
     end 
   end 
 end
