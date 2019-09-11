@@ -16,11 +16,9 @@ module Hotel
     end
     
     def make_reservation(room_number, start_date, end_date, range)  
-      room = list_available_rooms(start_date, end_date)
-      
+      room = list_available_rooms(start_date, end_date).first
       reservation = Hotel::Reservation.new(room, start_date, end_date, range)
       return reservation
-      
     end
     
     def add_reservation(reservation)
@@ -39,10 +37,11 @@ module Hotel
       if reservations_by_date.empty?
         raise ArgumentError, "No reservations for this date."
       end
+      #binding.pry - ok
       return reservations_by_date
     end
     
-    def list_rooms_available?(start_date, end_date)            
+    def rooms_available?(room, start_date, end_date)            
       reservations.each do |reservation|
         
         while start_date != end_date
@@ -51,7 +50,6 @@ module Hotel
           else
             result = true
           end
-          
           start_date += 1
         end  
         return result
@@ -59,18 +57,15 @@ module Hotel
     end 
     
     def list_available_rooms(start_date, end_date)
-      unavailable_rooms = []
+      available_rooms = []
       
       rooms.each do |room|
-        if list_rooms_available?(start_date, end_date) == false
-          unavailable_rooms << room
+        if rooms_available?(room, start_date, end_date)
+          available_rooms << room
         end 
-        
-        if unavailable_rooms.empty?
-          return @rooms
-        end
-        return unavailable_rooms
-      end
+      end 
+      #binding.pry
+      return available_rooms
     end
-  end 
+  end
 end

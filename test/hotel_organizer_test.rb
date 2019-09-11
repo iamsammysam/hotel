@@ -6,7 +6,7 @@ describe "HotelOrganizer Class" do
     
     @reservation1 = @hotel_organizer.make_reservation(18, Date.new(2018,01,01), Date.new(2018,01,06), nil)
     @reservation2 = @hotel_organizer.make_reservation(13, Date.new(2018,01,03), Date.new(2018,01,12), nil)
-    @reservation3 = @hotel_organizer.make_reservation(07, Date.new(2018,02,02), Date.new(2018,02,10), nil)
+    @reservation3 = @hotel_organizer.make_reservation(15, Date.new(2018,02,02), Date.new(2018,02,10), nil)
     
     @hotel_organizer.add_reservation(@reservation1)
     @hotel_organizer.add_reservation(@reservation2)
@@ -67,21 +67,21 @@ describe "HotelOrganizer Class" do
     end
   end 
   
-  describe "method list_rooms_available?" do
+  describe "method rooms_available?" do
     it "returns false if not available" do     
-      reservations_rooms_by_date = @hotel_organizer.list_rooms_available?(Date.new(2018,01,04),Date.new(2018,01,05))
+      reservations_rooms_by_date = @hotel_organizer.rooms_available?(1, Date.new(2018,01,04),Date.new(2018,01,05))
       expect(reservations_rooms_by_date).must_equal false
     end 
     
     it "returns an true if available" do     
-      reservations_rooms_by_date = @hotel_organizer.list_rooms_available?(Date.new(2018,01,12),Date.new(2018,01,16))
+      reservations_rooms_by_date = @hotel_organizer.rooms_available?(18, Date.new(2018,01,12),Date.new(2018,01,16))
       expect(reservations_rooms_by_date).must_equal true
     end 
   end 
   
   describe "method list_available_rooms" do
     it "returns an array" do 
-      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,03))
+      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,12,10),Date.new(2018,12,15))
       expect(list_rooms).must_be_kind_of Array
     end 
     
@@ -92,11 +92,11 @@ describe "HotelOrganizer Class" do
       expect(rooms_after).must_equal 20
     end 
     
-    it "returns a list of unavailable rooms" do      
-      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,03))
+    it "returns only the rooms that have dates available" do      
+      list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,06))
       
       rooms_after = list_rooms.length
-      expect(rooms_after).must_equal 1
+      expect(rooms_after).must_equal 19
     end 
   end 
 end
