@@ -1,0 +1,7 @@
+Refactors:
+
+- Fix bug on method room_available?
+- Distribute better methods in hotel_organizer (better OO DESGN)
+- Add Wave3: Hotel blocks
+- Add more tests for edge cases
+- Check optional enhancements - hopefully some day :)
