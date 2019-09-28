@@ -1,6 +1,19 @@
+# Revisiting Hotel:
+# What is this class's responsibility?
+# You should be able to describe it in a single sentence.
+# Is this class responsible for exactly one thing?
+# Does this class take on any responsibility that should be delegated to "lower level" classes?
+# Is there code in other classes that directly manipulates this class's instance variables?
+
 module Hotel
   class HotelOrganizer
     attr_reader :reservations, :rooms
+    # def reservations
+    #   @reservations
+    # end
+    # def rooms
+    #   @rooms
+    # end
     
     def initialize
       @reservations = []
@@ -44,27 +57,26 @@ module Hotel
     end
     
     # Wave 2: rooms available by date range
-    def rooms_available?(room, start_date, end_date)            
+    def room_available?(room, start_date, end_date)            
       reservations.each do |reservation|
-        
-        while start_date != end_date
-          if reservation.date_range.include?(start_date)
-            return false
-          else
-            start_date += 1
+        if reservation.room == room
+          while start_date != end_date
+            if reservation.date_range.include?(start_date)
+              return false
+            else
+              start_date += 1
+            end
           end
-        end  
-        
-        #binding.pry
-        return true
+        end
       end
+      return true
     end 
     
     def list_available_rooms(start_date, end_date)
       available_rooms = []
       
       rooms.each do |room|
-        if rooms_available?(room, start_date, end_date)
+        if room_available?(room, start_date, end_date)
           available_rooms << room
         end 
       end 

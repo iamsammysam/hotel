@@ -2,7 +2,9 @@ require_relative 'test_helper'
 
 describe "HotelOrganizer Class" do  
   before do
+    @empty_hotel_organizer = Hotel::HotelOrganizer.new
     @hotel_organizer = Hotel::HotelOrganizer.new
+    
     @reservation1 = @hotel_organizer.make_reservation(Date.new(2018,01,01), Date.new(2018,01,06), nil)
     @reservation2 = @hotel_organizer.make_reservation(Date.new(2018,01,03), Date.new(2018,01,12), nil)
     @reservation3 = @hotel_organizer.make_reservation(Date.new(2018,02,02), Date.new(2018,02,10), nil)
@@ -74,7 +76,39 @@ describe "HotelOrganizer Class" do
       list_rooms = @hotel_organizer.list_available_rooms(Date.new(2018,01,01),Date.new(2018,01,06))
       
       rooms_after = list_rooms.length
-      expect(rooms_after).must_equal 19
+      expect(rooms_after).must_equal 18
     end 
   end 
+  
+  describe "method room_available?" do
+    before do
+      @room1 = @empty_hotel_organizer.rooms[0]
+      @start_date = Date.new(2018,01,01)
+      @end_date = Date.new(2018,01,06)
+      @date_range = nil
+      
+      @room2 = @empty_hotel_organizer.rooms[1]
+      @start_date2 = Date.new(2018,01,12)
+      @end_date2 = Date.new(2018,01,15)
+      @date_range2 = nil
+      
+      @empty_hotel_organizer.reservations << Hotel::Reservation.new(@room1, @start_date, @end_date, @date_range)
+      @empty_hotel_organizer.reservations << Hotel::Reservation.new(@room2, @start_date2, @end_date2, @date_range2)
+    end 
+    
+    it "returns true if room is available for dates" do
+      # expect(value).expectation(maybe, arguments)
+      # 
+      # 'value' can be any type of value e.g. 1, "a string", Object.new, even nil
+      # 'expectation' is any of the methods provided by minitest to check things
+      # see list of them here: http://docs.seattlerb.org/minitest/Minitest/Expectations.html
+      expect(@empty_hotel_organizer.room_available?(@room2, @start_date, @end_date)).must_equal true
+      expect(@empty_hotel_organizer.room_available?(@room2, @end_date2, @end_date2 + 1)).must_equal true
+    end
+    
+    it "returns false if the room is already reserved for a date" do
+      expect(@empty_hotel_organizer.room_available?(@room1, @start_date, @end_date)).must_equal false
+    end 
+    
+  end
 end

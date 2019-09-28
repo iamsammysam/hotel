@@ -1,3 +1,10 @@
+# Revisiting Hotel:
+# What is this class's responsibility?
+# You should be able to describe it in a single sentence.
+# Is this class responsible for exactly one thing?
+# Does this class take on any responsibility that should be delegated to "lower level" classes?
+# Is there code in other classes that directly manipulates this class's instance variables?
+
 module Hotel
   class Reservation
     attr_reader :room, :start_date, :end_date, :range
@@ -20,7 +27,7 @@ module Hotel
     end
     
     def date_range
-      (start_date..end_date).to_a
+      (start_date...end_date).to_a
     end 
     
     def total_cost
