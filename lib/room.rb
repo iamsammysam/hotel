@@ -1,3 +1,10 @@
+# Revisiting Hotel:
+# What is this class's responsibility?
+# You should be able to describe it in a single sentence.
+# Is this class responsible for exactly one thing?
+# Does this class take on any responsibility that should be delegated to "lower level" classes?
+# Is there code in other classes that directly manipulates this class's instance variables?
+
 module Hotel
   class Room
     attr_reader :room_number, :room_cost, :reservations
@@ -11,7 +18,5 @@ module Hotel
     def add_reservation(reservation)
       @reservations << reservation
     end 
-    
-    #put method room_available here for refactoring?!
   end 
 end 
