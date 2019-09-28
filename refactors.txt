@@ -1,7 +1,12 @@
 Refactors:
-
 - Fix bug on method room_available?
 - Distribute better methods in hotel_organizer (better OO DESGN)
 - Add Wave3: Hotel blocks
 - Add more tests for edge cases
 - Check optional enhancements - hopefully some day :)
+
+
+Revisiting Hotel:
+- How easy is it to follow your own instructions?
+- Do these refactors improve the clarity of your code?
+- Do you still agree with your previous assessment, or could your refactor be further improved?
