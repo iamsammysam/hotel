@@ -1,5 +1,5 @@
 # Revisiting Hotel:
-# What is this class's responsibility?
+# What is this class's responsibility? 
 # You should be able to describe it in a single sentence.
 # Is this class responsible for exactly one thing?
 # Does this class take on any responsibility that should be delegated to "lower level" classes?

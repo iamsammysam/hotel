@@ -7,14 +7,7 @@
 
 module Hotel
   class HotelOrganizer
-    attr_reader :reservations, :rooms
-    # def reservations
-    #   @reservations
-    # end
-    # def rooms
-    #   @rooms
-    # end
-    
+    attr_reader :reservations, :rooms    
     def initialize
       @reservations = []
       @rooms = []
@@ -30,19 +23,16 @@ module Hotel
     
     # Wave 1 - make reservation for date range
     def make_reservation(start_date, end_date, date_range)  
-      avai_room = list_available_rooms(start_date, end_date).sample
-      
+      avai_room = list_available_rooms(start_date, end_date).sample  
       reservation = Hotel::Reservation.new(avai_room, start_date, end_date, date_range)
       @reservations << reservation
       
-      # binding.pry
       return reservation
     end
     
     # Wave 1 - list of reservations by date
     def list_reservations(date)
       reservations_by_date = []
-      
       @reservations.each do |reservation|
         if reservation.date_range.include?(date)
           reservations_by_date << reservation
@@ -52,16 +42,15 @@ module Hotel
       if reservations_by_date.empty?
         raise ArgumentError, "No reservations for this date."
       end
-      # binding.pry - ok
       return reservations_by_date
     end
     
     # Wave 2: rooms available by date range
     def room_available?(room, start_date, end_date)            
-      reservations.each do |reservation|
-        if reservation.room == room
+      reservations.each do |item|
+        if item.room == room
           while start_date != end_date
-            if reservation.date_range.include?(start_date)
+            if item.date_range.include?(start_date)
               return false
             else
               start_date += 1
@@ -74,13 +63,11 @@ module Hotel
     
     def list_available_rooms(start_date, end_date)
       available_rooms = []
-      
       rooms.each do |room|
         if room_available?(room, start_date, end_date)
           available_rooms << room
         end 
       end 
-      #binding.pry
       return available_rooms
     end
   end
